@@ -1,0 +1,123 @@
+<html>
+  <head>
+    <title>Open API Explorer</title>
+    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"
+          rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <link href="bower_components/angular-swagger-ui/dist/css/swagger-ui.min.css"
+          rel="stylesheet">
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.10/angular.min.js"></script>
+    <script src="bower_components/angular-swagger-ui/dist/scripts/swagger-ui.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js"></script>
+    <script src="bower_components/swagger-parser/dist/swagger-parser.js"></script>
+    <script src="bower_components/tg-angular-validator/dist/angular-validator.js"></script>
+    <script src="bower_components/elasticsearch/elasticsearch.angular.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>
+    <script src="/javascripts/angularApp.js"></script>
+    <style> .glyphicon-thumbs-up { cursor:pointer } </style>
+    <base href="/" />
+  </head>
+  <body ng-app="flapperNews">
+    <nav class="navbar navbar-default pull-right">
+      <ul class="nav navbar-nav">
+        <li><a href="./#/home">Home</a></li>
+        <li><a href="./#/listing">API Listing</a></li>
+        <li><a href="./#/new">Submit New API</a></li>
+      </ul>
+    </nav>
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3">
+        <ui-view></ui-view>
+      </div>
+    </div>
+
+    <script type="text/ng-template" id="/home.html">
+      <div class="page-header">
+        <h1>Open API Explorer</h1>
+      </div>
+
+      <h3>Search Open APIs</h3>
+      <section class="searchField">
+        <form ng-submit="search()">
+          <div class="form-group">
+            <input type="text" class="form-control"
+                   ng-model="searchTerm">
+          </div>
+          <button type="submit" class="btn btn-primary">Search for APIs</button>
+        </form>
+      </section>
+
+      <!-- In results, we show a message if there are no results, and
+      a list of results otherwise. -->
+      <section class="results">
+        <div class="no-results" ng-hide="apis.length">No results</div>
+
+        <!-- We show one of these elements for each recipe in $scope.recipes.
+        The ng-cloak directive prevents our templates from showing on load. -->
+        <article class="result" ng-repeat="api in apis" ng-cloak>
+          <h2>
+            <a href="./posts/{{api._id}}">{{ api._source.info.title }}</a>
+          </h2>
+        </article>
+
+        <!-- We put a link that calls $scope.loadMore to load more recipes
+        and append them to the results.-->
+        <div class="load-more" ng-hide="allResults" ng-cloak>
+          <a ng-click="loadMore()">More...</a>
+        </div>
+      </section>
+    </script>
+
+    <script type="text/ng-template" id="/new.html">
+      <div class="page-header">
+        <h1>Open API Explorer</h1>
+      </div>
+
+      <form name="apiForm" novalidate ng-submit="apiForm.$valid && addPost()" style="margin-top:30px;">
+        <h3>Submit a new API spec</h3>
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Title"
+                 name="title" ng-model="title" required></input>
+        </div>
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Link to Swagger Spec JSON file"
+                 name="link" ng-model="link" ng-model-options="{ debounce: 1000 }" required
+                 valid-spec unique-spec></input>
+
+          <div>
+            <div ng-if="apiForm.link.$error.valid">Invalid Swagger Spec</div>
+            <div ng-if="apiForm.link.$error.unique">API has already been added</div>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Post</button>
+      </form>
+    </script>
+
+
+    <script type="text/ng-template" id="/listing.html">
+      <div class="page-header">
+        <h1>Open API Explorer</h1>
+      </div>
+      <h3>Listed APIs</h3>
+      <div ng-repeat="post in posts">
+        <span style="font-size:20px; margin-left:10px;">
+          <a href="posts/{{post._id}}">
+            {{post.title}}
+          </a>
+        </span>
+      </div>
+    </script>
+
+    <script type="text/ng-template" id="/posts.html">
+      <div class="page-header">
+        <h1>Open API Explorer</h1>
+      </div>
+      <h3>
+        <span ng-show="post.title">
+          {{post.title}}
+        </span>
+      </h3>
+      <div swagger-ui url="{{post.link}}" api-explorer="true"></div>
+    </script>
+  </body>
+</html>
