@@ -32,7 +32,7 @@ router.post('/posts', function(req, res, next) {
         id: post.id,
         body: bod
       }, function(error, resp) {
-        if (err) {
+        if (error) {
           console.log(error);
         } else {
           console.log(resp);
