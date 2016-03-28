@@ -25,7 +25,7 @@ router.post('/posts', function(req, res, next) {
   var post = new Post(req.body);
 
   request(post.link, function(rerr, rres, bod) {
-    if (!rerr && response.statusCode == 200) {
+    if (!rerr && rres.statusCode == 200) {
       client.index({
         index: 'explore',
         type: 'api',
