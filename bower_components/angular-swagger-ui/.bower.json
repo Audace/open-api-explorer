@@ -41,6 +41,5 @@
   },
   "_source": "git://github.com/Orange-OpenSource/angular-swagger-ui.git",
   "_target": "~0.3.1",
-  "_originalSource": "angular-swagger-ui",
-  "_direct": true
+  "_originalSource": "angular-swagger-ui"
 }

@@ -7,8 +7,9 @@ var elasticsearch = require('elasticsearch');
 var SwaggerParser = require('swagger-parser');
 
 var client = new elasticsearch.Client();
+var connectionString = process.env.SEARCHBOX_URL;
 var client = elasticsearch.Client({
-  host: 'localhost:9200'
+  host: connectionString
 });
 
 /* GET posts page. */

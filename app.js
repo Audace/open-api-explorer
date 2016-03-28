@@ -7,7 +7,9 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 
 require('./models/Posts');
-mongoose.connect('mongodb://heroku_b1prlcfg:SLjw2016@ds025399.mlab.com:25399/heroku_b1prlcfg');
+
+var mong = process.env.MONGOLAB_URI;
+mongoose.connect(mong);
 
 var routes = require('./routes/index');
 

@@ -1,4 +1,4 @@
-var app = angular.module('flapperNews', ['ui.router','elasticsearch'],['$locationProvider', function($locationProvider) {
+var app = angular.module('flapperNews', ['ui.router','elasticsearch','ngSanitize','ngPrettyJson'],['$locationProvider', function($locationProvider) {
   $locationProvider.html5Mode({
     enabled: true
   });
@@ -29,7 +29,7 @@ function($stateProvider, $urlRouterProvider) {
       templateUrl: '/posts.html',
       controller: 'PostsCtrl',
       resolve: {
-        post: ['$stateParams', 'posts', function($stateParams, posts) {
+        post: ['$stateParams','posts', function($stateParams, posts) {
           return posts.get($stateParams.id);
         }]
       }
@@ -143,10 +143,16 @@ function($scope, posts){
 
 app.controller('ListingCtrl', [
 '$scope',
+'$http',
 'posts',
-function($scope, posts){
-  $scope.test = 'Hello world!';
+function($scope, $http, posts){
   $scope.posts = posts.posts;
+  angular.forEach(posts.posts, function(value,idx) {
+    $http.get(value.link).then(function(res) {
+      value['host'] = res.data.host;
+      value['info'] = res.data.info.description;
+    });
+  });
 }]);
 
 app.directive('validSpec', function(isSpecValid) {
@@ -219,10 +225,14 @@ app.factory('isSpecUnique',['$q','$http', function($q, $http) {
 
 app.controller('PostsCtrl', [
 '$scope',
+'$http',
 'posts',
 'post',
-function($scope, posts, post){
+function($scope, $http, posts, post){
   $scope.post = post;
+  $http.get(post.link).then(function(res) {
+    $scope.jsonObj = res.data;
+  })
 }]);
 
 app.factory('apiService', ['$q', 'esFactory', '$location', function($q, elasticsearch, $location) {
