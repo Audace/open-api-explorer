@@ -24,16 +24,22 @@ router.get('/posts', function(req, res, next) {
 router.post('/posts', function(req, res, next) {
   var post = new Post(req.body);
 
-  request(post.link, function(err, res, bod) {
-    if (!err && res.statusCode == 200) {
+  request(post.link, function(rerr, rres, bod) {
+    if (!rerr && response.statusCode == 200) {
       client.index({
         index: 'explore',
         type: 'api',
         id: post.id,
         body: bod
-      }, function(err, resp) {});
+      }, function(error, resp) {
+        if (err) {
+          console.log(error);
+        } else {
+          console.log(resp);
+        }
+      });
     } else {
-      console.log("Got an error: ", err, ", status code: ", res.statusCode);
+      console.log("Got an error: ", rerr, ", status code: ", rres.statusCode);
     }
   });
 
