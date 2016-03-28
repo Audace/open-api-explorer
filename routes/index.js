@@ -6,7 +6,6 @@ var request = require('request');
 var elasticsearch = require('elasticsearch');
 var SwaggerParser = require('swagger-parser');
 
-var client = new elasticsearch.Client();
 var connectionString = process.env.SEARCHBOX_URL;
 var client = elasticsearch.Client({
   host: connectionString
@@ -27,7 +26,6 @@ router.post('/posts', function(req, res, next) {
 
   request(post.link, function(err, res, bod) {
     if (!err && res.statusCode == 200) {
-      var spec = JSON.parse(bod);
       client.index({
         index: 'explore',
         type: 'api',
