@@ -9,6 +9,7 @@ var mongoose = require('mongoose');
 require('./models/Posts');
 
 var mong = process.env.MONGOLAB_URI;
+//var mong = 'mongodb://localhost/apis';
 mongoose.connect(mong);
 
 var routes = require('./routes/index');

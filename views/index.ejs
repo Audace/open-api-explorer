@@ -7,7 +7,8 @@
           rel="stylesheet">
     <link href="bower_components/ng-prettyjson/dist/ng-prettyjson.min.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.3.10/angular.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
+    <script src="bower_components/angular-swagger-ui/dist/scripts/swagger-ui.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.js"></script>
     <script src="bower_components/swagger-parser/dist/swagger-parser.js"></script>
     <script src="bower_components/tg-angular-validator/dist/angular-validator.js"></script>
@@ -58,7 +59,7 @@
         The ng-cloak directive prevents our templates from showing on load. -->
         <article class="result" ng-repeat="api in apis" ng-cloak>
           <h2>
-            <a href="./posts/{{api._id}}">{{ api._source.info.title }}</a>
+            <a href="./#/posts/{{api._id}}">{{ api._source.info.title }}</a>
           </h2>
           <h4>{{ api._source.info.description }}</h4>
         </article>
@@ -120,7 +121,7 @@
           {{post.title}}
         </span>
       </h3>
-      <pre pretty-json="jsonObj"  />
+      <div swagger-ui url="post.link" api-explorer="true"></div>
 
     </script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>

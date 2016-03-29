@@ -1,4 +1,4 @@
-var app = angular.module('flapperNews', ['ui.router','elasticsearch','ngSanitize','ngPrettyJson'],['$locationProvider', function($locationProvider) {
+var app = angular.module('flapperNews', ['ui.router','elasticsearch','ngSanitize','swaggerUi','ngPrettyJson'],['$locationProvider', function($locationProvider) {
   $locationProvider.html5Mode({
     enabled: true
   });
@@ -226,13 +226,9 @@ app.factory('isSpecUnique',['$q','$http', function($q, $http) {
 app.controller('PostsCtrl', [
 '$scope',
 '$http',
-'posts',
 'post',
-function($scope, $http, posts, post){
+function($scope, $http, post){
   $scope.post = post;
-  $http.get(post.link).then(function(res) {
-    $scope.jsonObj = res.data;
-  })
 }]);
 
 app.factory('apiService', ['$q', 'esFactory', '$location', function($q, elasticsearch, $location) {
