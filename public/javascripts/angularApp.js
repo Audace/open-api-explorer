@@ -233,8 +233,9 @@ function($scope, $http, post){
 }]);
 
 app.factory('apiService', ['$q', 'esFactory', '$location', function($q, elasticsearch, $location) {
+  var connectionString = process.env.SEARCHBOX_URL;
   var client = elasticsearch({
-    host: 'localhost:9200'
+    host: connectionString
   });
 
   var search = function(term, offset) {
