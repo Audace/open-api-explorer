@@ -233,9 +233,8 @@ function($scope, $http, post){
 }]);
 
 app.factory('apiService', ['$q', 'esFactory', '$location', function($q, elasticsearch, $location) {
-  var connectionString = process.env.SEARCHBOX_URL;
   var client = elasticsearch({
-    host: connectionString
+    host: 'http://paas:f229eddf05b78e98535cceeaf53a21a5@dori-us-east-1.searchly.com'
   });
 
   var search = function(term, offset) {
