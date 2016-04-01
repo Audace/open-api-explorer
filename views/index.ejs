@@ -121,7 +121,8 @@
           {{post.title}}
         </span>
       </h3>
-      <div swagger-ui url="post.link" api-explorer="true"></div>
+      <h5 ng-show="loadingSpec">Loading ...</h5>
+      <div swagger-ui url="post.link" loading="loadingSpec" api-explorer="true"></div>
 
     </script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>

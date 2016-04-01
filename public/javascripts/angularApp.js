@@ -229,6 +229,7 @@ app.controller('PostsCtrl', [
 'post',
 function($scope, $http, post){
   $scope.post = post;
+  $scope.loadingSpec;
 }]);
 
 app.factory('apiService', ['$q', 'esFactory', '$location', function($q, elasticsearch, $location) {
